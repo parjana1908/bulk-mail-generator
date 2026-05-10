@@ -9,17 +9,21 @@ app.use(cors())
 app.use(express.json())
 
 // mongodb connection
-mongoose.connect("mongodb://parjana:12345@ac-lgi9ksb-shard-00-00.pufae47.mongodb.net:27017,ac-lgi9ksb-shard-00-01.pufae47.mongodb.net:27017,ac-lgi9ksb-shard-00-02.pufae47.mongodb.net:27017/bulkmail?ssl=true&replicaSet=atlas-3s1vj2-shard-0&authSource=admin&appName=Cluster0")
+mongoose.connect("mongodb+srv://parjana:12345@cluster0.pufae47.mongodb.net/bulkmail?appName=Cluster0")
     .then(function () {
         console.log("Connected to db")
     })
     .catch(function (error) {
         console.log("Fail to connect")
         console.log(error)
-
     })
 
 // model creation
+const mail = mongoose.model("mail", new mongoose.Schema({
+    user: String,
+    pass: String
+}), "mail")
+
 const historyModel = mongoose.model("history", new mongoose.Schema({
     subject: String,
     message: String,
@@ -33,8 +37,6 @@ app.post("/sendmail", function (req, res) {
     var msg = req.body.msg
     var subject = req.body.subject
     var emailList = req.body.emailList
-
-    const mail = mongoose.model("mail", {}, "mail")
 
     mail.find()
         .then(function (data) {
