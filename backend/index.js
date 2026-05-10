@@ -5,7 +5,10 @@ const mongoose = require("mongoose")
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: "*"
+}))
+
 app.use(express.json())
 
 mongoose.connect("mongodb+srv://parjana:12345@cluster0.pufae47.mongodb.net/bulkmail?appName=Cluster0")
