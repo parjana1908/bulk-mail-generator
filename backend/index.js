@@ -8,7 +8,6 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-// mongodb connection
 mongoose.connect("mongodb+srv://parjana:12345@cluster0.pufae47.mongodb.net/bulkmail?appName=Cluster0")
     .then(function () {
         console.log("Connected to db")
@@ -18,7 +17,6 @@ mongoose.connect("mongodb+srv://parjana:12345@cluster0.pufae47.mongodb.net/bulkm
         console.log(error)
     })
 
-// model creation
 const mail = mongoose.model("mail", new mongoose.Schema({
     user: String,
     pass: String
@@ -31,7 +29,6 @@ const historyModel = mongoose.model("history", new mongoose.Schema({
     date: String
 }), "history")
 
-// Send Mail API
 app.post("/sendmail", function (req, res) {
 
     var msg = req.body.msg
@@ -43,13 +40,13 @@ app.post("/sendmail", function (req, res) {
 
             const transporter = nodemailer.createTransport({
 
-                service: "gmail",
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false,
 
                 auth: {
-
                     user: data[0].toJSON().user,
                     pass: data[0].toJSON().pass,
-
                 },
 
             })
@@ -63,11 +60,8 @@ app.post("/sendmail", function (req, res) {
                         await transporter.sendMail({
 
                             from: "parjanabegam2003@gmail.com",
-
                             to: emailList[i],
-
                             subject: subject,
-
                             text: msg
 
                         })
@@ -81,7 +75,6 @@ app.post("/sendmail", function (req, res) {
                 catch (error) {
 
                     console.log(error)
-
                     reject("Failed")
 
                 }
@@ -106,42 +99,29 @@ app.post("/sendmail", function (req, res) {
         })
 
         .then(function () {
-
             res.send(true)
-
         })
 
         .catch(function (error) {
-
             console.log(error)
-
             res.send(false)
-
         })
 
 })
 
-// History API
 app.post("/history", function (req, res) {
 
     historyModel.find()
         .then(function (data) {
-
             res.send(data)
-
         })
         .catch(function (error) {
-
             console.log(error)
-
             res.send([])
-
         })
 
 })
 
 app.listen(3000, function () {
-
     console.log("Server Started...")
-
 })
