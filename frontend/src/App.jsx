@@ -38,7 +38,7 @@ function App() {
 
     setStatus(true)
 
-    axios.post("http://localhost:3000/sendmail", {
+    axios.post("https://bulk-mail-generator.onrender.com/sendmail", {
 
       msg: msg,
       subject: subject,
@@ -84,7 +84,7 @@ function App() {
   // View History
   function history() {
 
-    axios.post("http://localhost:3000/history")
+    axios.post("https://bulk-mail-generator.onrender.com/history")
 
       .then(function (data) {
 
