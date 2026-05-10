@@ -38,7 +38,7 @@ function App() {
 
     setStatus(true)
 
-   axios.post("https://bulk-mail-generator-production.up.railway.app/sendmail", {
+   axios.post("https://bulk-mail-generator-1.onrender.com", {
       msg: msg,
       subject: subject,
       emailList: emailList
@@ -83,7 +83,7 @@ function App() {
   // View History
   function history() {
 
-axios.post("https://bulk-mail-generator-production.up.railway.app/history")
+axios.post("https://bulk-mail-generator-1.onrender.com")
 
       .then(function (data) {
 
